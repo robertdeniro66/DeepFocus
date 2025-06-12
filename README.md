@@ -18,31 +18,26 @@ A multi-browser extension that transforms your time-on-page into a gentle ocean 
 - Bathypelagic: 15–45min (1,000–4,000m)
 - Abyssal: >45min (4,000–6,000m)
 
-## Getting Started
-
-### 1. Install dependencies
-```sh
-npm install
-```
-
-### 2. Development
-- **Chrome:**
-  ```sh
-  npm run dev:chrome
-  ```
-- **Firefox:**
-  ```sh
-  npm run dev:firefox
-  ```
-
-### 3. Build for production
-```sh
-npm run build
-```
-
-### 4. Load Extension
-- **Chrome/Edge:** Load `dist/` as an unpacked extension.
-- **Firefox:** Use `about:debugging` to load `dist/` as a temporary add-on.
+## 🐟 How to Use DeepFocus as a Chrome Extension
+1. **Clone the Repository**
+ ```sh
+   git clone https://github.com/robertdeniro66/DeepFocus.git
+   cd DeepFocus/extension
+   ```
+2. **No Build Step Needed**
+This version does not require a build step. All the code is ready to use in the `extension` folder.
+3. **Load the Extension in Chrome**
+- Open Chrome and go to chrome://extensions/
+- Enable Developer mode (toggle in the top right)
+- Click Load unpacked
+- Select the extension folder (the one you are in now)
+4. **Using the Extension**
+The extension will show a floating tile and ocean overlay on any page.
+Click the tile to open the info panel.
+Use the options page to adjust settings (click the extension icon, then the gear/settings).
+5. **Troubleshooting**
+If you update the code, click the refresh icon on the extension in chrome://extensions/.
+If you see errors, check the browser console for details.
 
 ## Project Structure
 ```
@@ -65,11 +60,6 @@ options/
 test/
   depth.test.ts
 README.md
-```
-
-## Testing
-```sh
-npm run test
 ```
 
 ## Performance & Security
