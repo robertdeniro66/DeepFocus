@@ -24,18 +24,22 @@ A multi-browser extension that transforms your time-on-page into a gentle ocean 
    git clone https://github.com/robertdeniro66/DeepFocus.git
    cd DeepFocus/extension
    ```
+
 2. **No Build Step Needed**
 This version does not require a build step. All the code is ready to use in the `extension` folder.
-3. **Load the Extension in Chrome**
+
+4. **Load the Extension in Chrome**
 - Open Chrome and go to chrome://extensions/
 - Enable Developer mode (toggle in the top right)
 - Click Load unpacked
 - Select the extension folder (the one you are in now)
+
 4. **Using the Extension**
 The extension will show a floating tile and ocean overlay on any page.
 Click the tile to open the info panel.
 Use the options page to adjust settings (click the extension icon, then the gear/settings).
-5. **Troubleshooting**
+
+6. **Troubleshooting**
 If you update the code, click the refresh icon on the extension in chrome://extensions/.
 If you see errors, check the browser console for details.
 
