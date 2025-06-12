@@ -1,0 +1,66 @@
+[
+  {
+    "zone": "Epipelagic",
+    "depthRangeMeters": "0-200",
+    "species": [
+      {
+        "name": "Green Sea Turtle",
+        "fact": "Migrates up to 2 600 km between nesting and feeding grounds.",
+        "noaaId": "NOAA-GST-001"
+      },
+      {
+        "name": "Common Dolphin",
+        "fact": "Can reach speeds of 60 km/h in short bursts.",
+        "noaaId": "NOAA-CD-042"
+      }
+    ]
+  },
+  {
+    "zone": "Mesopelagic",
+    "depthRangeMeters": "200-1 000",
+    "species": [
+      {
+        "name": "Lanternfish",
+        "fact": "Accounts for roughly 65 % of all deep-sea fish biomass.",
+        "noaaId": "NOAA-LF-102"
+      },
+      {
+        "name": "Humboldt Squid",
+        "fact": "Displays flashes of red and white when hunting.",
+        "noaaId": "NOAA-HS-221"
+      }
+    ]
+  },
+  {
+    "zone": "Bathypelagic",
+    "depthRangeMeters": "1 000-4 000",
+    "species": [
+      {
+        "name": "Giant Isopod",
+        "fact": "Can survive five years without food in captivity.",
+        "noaaId": "NOAA-GI-310"
+      },
+      {
+        "name": "Sixgill Shark",
+        "fact": "One of the few sharks with six gill slits.",
+        "noaaId": "NOAA-SS-254"
+      }
+    ]
+  },
+  {
+    "zone": "Abyssal",
+    "depthRangeMeters": "4 000-6 000",
+    "species": [
+      {
+        "name": "Tripod Fish",
+        "fact": "Perches on the seafloor using elongated fin rays.",
+        "noaaId": "NOAA-TF-401"
+      },
+      {
+        "name": "Deep-sea Cucumber",
+        "fact": "Scavenges marine snow with feathery tentacles.",
+        "noaaId": "NOAA-DC-415"
+      }
+    ]
+  }
+] 

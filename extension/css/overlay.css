@@ -1,0 +1,460 @@
+.deepfocus-overlay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 40vh;
+  z-index: 2147483647;
+  pointer-events: none;
+  transition: background 1s, opacity 0.5s;
+  mix-blend-mode: multiply;
+  opacity: 0.85;
+  background: linear-gradient(180deg, rgba(229,247,255,0) 0%, rgba(229,247,255,1) 25%, #7EC8E3 70%, #2563EB 98%, #0B1A2F 100%);
+  /* background will be set dynamically in JS based on depth/zone */
+}
+
+.deepfocus-badge {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  left: auto;
+  margin: 0;
+  z-index: 2147483647;
+  min-width: 18rem;
+  width: 18rem;
+  max-width: 90vw;
+  background: rgba(255,255,255,0.7);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px 0 rgba(56,189,248,0.12), 0 2px 8px 0 rgba(37,99,235,0.08);
+  border: none;
+  outline: none;
+  ring: 1px solid rgba(255,255,255,0.3);
+  /* mimic tailwind's ring-1 ring-white/30 */
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.3), 0 8px 32px 0 rgba(56,189,248,0.12), 0 2px 8px 0 rgba(37,99,235,0.08);
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.deepfocus-badge:active {
+  cursor: grabbing;
+}
+
+.deepfocus-badge:focus {
+  box-shadow: 0 0 0 2px #3b82f6;
+}
+
+.deepfocus-badge.colorblind {
+  border: 2px solid #000;
+}
+
+.df-badge-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 2px;
+}
+
+.df-badge-label {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #123047;
+  margin-bottom: 0.2rem;
+}
+
+.df-badge-depth {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: #275267;
+  font-weight: 400;
+}
+
+.pre-dive-row {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 1rem;
+  color: #356f89;
+}
+
+.arrow {
+  color: #38bdf8;
+  font-size: 1.1em;
+  opacity: 0.8;
+}
+
+.arrow.animate-bounce-slow {
+  animation: bounce-slow 1.2s ease-in-out infinite;
+}
+.arrow.delay-200 {
+  animation-delay: 0.2s;
+}
+.arrow.delay-400 {
+  animation-delay: 0.4s;
+}
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); opacity: .8; }
+  50%      { transform: translateY(4px); opacity: .4; }
+}
+
+.deepfocus-info-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 420px;
+  max-width: 95vw;
+  height: 100vh;
+  background: #fff;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.08);
+  padding: 32px 32px 64px 32px;
+  overflow-y: auto;
+  z-index: 2147483646;
+  pointer-events: auto;
+  animation: slide-in 0.3s ease-out;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px;
+  border-radius: 16px 0 0 16px;
+}
+
+.deepfocus-info-panel h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #1a1a1a;
+}
+
+.deepfocus-info-panel .zone {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #1e40af;
+}
+
+.deepfocus-info-panel .species-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.deepfocus-info-panel .species {
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.deepfocus-info-panel .species-name {
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+.deepfocus-info-panel .species-fact {
+  font-size: 14px;
+  color: #4b5563;
+  margin-bottom: 8px;
+}
+
+.deepfocus-info-panel .learn-more {
+  color: #2563eb;
+  text-decoration: underline;
+  font-size: 14px;
+}
+
+.deepfocus-info-panel .learn-more:hover {
+  color: #1d4ed8;
+}
+
+.deepfocus-info-panel .close-button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.deepfocus-info-panel .close-button:hover {
+  color: #1a1a1a;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.species-img {
+  width: 100%;
+  max-width: 120px;
+  height: auto;
+  display: block;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  object-fit: cover;
+}
+
+.df-zone-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 2px;
+  color: #292929;
+  letter-spacing: -0.01em;
+  text-align: left;
+}
+
+.df-zone-sub {
+  font-size: 16px;
+  color: #5B6B7A;
+  margin-bottom: 24px;
+  font-weight: 400;
+}
+
+.df-marine-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #292929;
+}
+
+.df-species-card {
+  position: relative;
+  border-radius: 12px;
+  background: rgba(230,245,255,0.7); /* very light blue-gray */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: none;
+  border: none;
+  outline: none;
+  padding: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.18);
+}
+
+.df-species-card:hover {
+  box-shadow: 0 6px 24px rgba(37,99,235,0.10);
+  border-color: #2563EB;
+}
+
+.df-species-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+  width: 100%;
+}
+
+.df-species-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #292929;
+  flex: 1;
+}
+
+.df-species-fact {
+  color: #292929;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.df-learn-more {
+  color: #2563EB;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  transition: color 0.15s;
+}
+
+.df-learn-more:hover {
+  color: #1749B1;
+}
+
+.df-ext-icon {
+  font-size: 0.95em;
+  margin-left: 2px;
+}
+
+.df-zone-char {
+  background: #F5F7FA;
+  border-radius: 12px;
+  padding: 18px 20px 14px 20px;
+  margin-top: 18px;
+  margin-bottom: 10px;
+  border: none;
+}
+
+.df-zone-char-title {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 4px;
+  color: #292929;
+}
+
+.df-zone-char-desc {
+  color: #292929;
+  font-size: 16px;
+}
+
+.df-panel-footer {
+  text-align: center;
+  color: #8A99A8;
+  font-size: 15px;
+  margin-top: 16px;
+  margin-bottom: 2px;
+}
+
+.df-panel-info {
+  position: absolute;
+  top: 18px;
+  right: 48px;
+  background: none;
+  border: none;
+  color: #2563eb;
+  font-size: 1.3em;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 50%;
+  transition: background 0.15s;
+  outline: none;
+  z-index: 2;
+}
+
+.df-panel-info:hover, .df-panel-info:focus {
+  background: #e0e7ff;
+}
+
+.df-panel-info-box {
+  position: absolute;
+  top: 44px;
+  right: 24px;
+  width: 340px;
+  max-width: 90vw;
+  background: #fff;
+  color: #1a1a1a;
+  border-radius: 10px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+  padding: 18px 20px 16px 20px;
+  font-size: 1em;
+  line-height: 1.6;
+  z-index: 10;
+  border: 1.5px solid #e0e7ef;
+  pointer-events: auto;
+}
+
+.df-panel-subtext {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 18px 32px 12px 32px;
+  font-size: 13px;
+  color: #8A99A8;
+  line-height: 1.6;
+  text-align: left;
+  background: linear-gradient(to top, #fff 90%, rgba(255,255,255,0.7) 100%);
+  z-index: 2;
+}
+
+@media (max-width: 600px) {
+  .deepfocus-info-panel {
+    width: 100vw;
+    min-width: 0;
+    padding: 16px 4vw 16px 4vw;
+    border-radius: 0;
+  }
+  .deepfocus-badge {
+    left: 8px;
+    right: 8px;
+    max-width: calc(100vw - 16px);
+  }
+}
+
+@media (max-width: 900px) {
+  .deepfocus-badge {
+    right: 440px;
+    left: 16px;
+    margin-left: 0;
+    margin-right: 0;
+    max-width: calc(100vw - 456px);
+  }
+  .deepfocus-info-panel {
+    width: 400px;
+    min-width: 0;
+    padding: 24px 12px 18px 12px;
+  }
+}
+
+@keyframes ocean-move {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 40px; }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 8s ease-in;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fadeOut {
+  animation: fadeOut 8s linear forwards;
+}
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.pulse-arrow {
+  display: inline-block;
+  animation: pulseArrow 1.2s infinite;
+}
+.pulse-arrow.delay-1 {
+  animation-delay: 0.3s;
+}
+.pulse-arrow.delay-2 {
+  animation-delay: 0.6s;
+}
+@keyframes pulseArrow {
+  0%, 100% { opacity: 0.4; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(4px); }
+}
+
+/* Remove bubble animation and styles */
+/* .animate-bubble-wrapper, .bubble, .bubble.delay-500, @keyframes bubble-rise, prefers-reduced-motion for .bubble */
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fadeIn {
+    animation: none !important;
+  }
+}
+
+.depth-bar { display: none !important; }
+
+.depth-bar-fill {
+  position: absolute;
+  inset: 0;
+  background: #2563eb;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  border-radius: 6px;
+}
+
+body, .deepfocus-info-panel, .deepfocus-badge, .df-species-card, .df-zone-title, .df-zone-sub, .df-marine-title, .df-species-name, .df-species-fact, .df-learn-more, .df-zone-char, .df-panel-footer {
+  font-family: 'Inter', system-ui, sans-serif !important;
+} 

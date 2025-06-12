@@ -1,18 +1,17 @@
 {
-  "name": "depthtime",
+  "name": "deepfocus",
   "version": "1.0.0",
-  "description": "Transform your time-on-page into an ocean descent experience",
+  "description": "A browser extension that transforms time-on-page into an ocean descent experience",
   "type": "module",
   "scripts": {
     "dev:chrome": "vite build --watch --mode chrome",
     "dev:firefox": "vite build --watch --mode firefox",
     "build": "vite build",
     "test": "vitest",
-    "lint": "eslint src --ext .ts,.tsx",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "format": "prettier --write \"src/**/*.{ts,tsx}\""
   },
   "dependencies": {
-    "@crxjs/vite-plugin": "^2.0.0-beta.23",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-slider": "^1.1.2",
     "@radix-ui/react-switch": "^1.0.3",
@@ -25,18 +24,19 @@
     "webextension-polyfill": "^0.10.0"
   },
   "devDependencies": {
+    "@crxjs/vite-plugin": "^2.0.0-beta.23",
     "@types/chrome": "^0.0.260",
     "@types/node": "^20.11.19",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
+    "@types/webextension-polyfill": "^0.10.7",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.17",
     "eslint": "^8.56.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
     "postcss": "^8.4.35",
     "prettier": "^3.2.5",
     "tailwindcss": "^3.4.1",

@@ -1,66 +1,85 @@
-# DeepFocus Browser Extension
+# DeepFocus
 
-Transform your time-on-page into an ocean descent experience. Watch as your browsing session takes you deeper into the ocean, with gentle color shifts and marine life facts.
+A multi-browser extension that transforms your time-on-page into a gentle ocean descent, visualized as a transparent overlay with live depth, marine silhouettes, and snack-sized ocean facts.
 
 ## Features
+- **Ocean Descent Overlay:** See your focus time visualized as a journey through ocean layers.
+- **Floating Depth Badge:** Shows current zone and meters; click to open Info Panel.
+- **Info Panel:** Learn about marine life at your current depth (NOAA-cited facts).
+- **Options Page:** Toggle overlay, set idle timeout, enable color-blind mode.
+- **Performance:** ≤2% CPU, ≤50MB RAM at 95th percentile sessions.
+- **Accessibility:** Overlay opacity ≤8%, WCAG-AA text, keyboard shortcuts (⌥+O, ⌥+I).
+- **Internationalization:** All UI text in `src/i18n/en.json`.
 
-- 🌊 Transparent overlay shows ocean depth progression
-- 🐠 Floating badge displays current depth
-- 📚 Info panel with marine life facts
-- ⚡ Performance optimized (≤2% CPU, ≤50MB RAM)
-- ♿ WCAG-AA compliant
-- 🌐 Works in Chrome, Edge, and Firefox
+## Ocean Zones & Timing
+- Surface: 0–30s (0m)
+- Epipelagic: 0.5–2min (0–200m)
+- Mesopelagic: 2–15min (200–1,000m)
+- Bathypelagic: 15–45min (1,000–4,000m)
+- Abyssal: >45min (4,000–6,000m)
 
-## Development with GitHub Codespaces
+## Getting Started
 
-1. Click the "Code" button on this repository
-2. Select the "Codespaces" tab
-3. Click "Create codespace on main"
-4. Wait for the environment to build (takes about 1-2 minutes)
-
-Once the codespace is ready:
-
-```bash
-# Start development server for Chrome
-npm run dev:chrome
-
-# Or for Firefox
-npm run dev:firefox
+### 1. Install dependencies
+```sh
+npm install
 ```
 
-The extension will be built and hot-reloaded as you make changes.
+### 2. Development
+- **Chrome:**
+  ```sh
+  npm run dev:chrome
+  ```
+- **Firefox:**
+  ```sh
+  npm run dev:firefox
+  ```
 
-## Building for Production
-
-```bash
+### 3. Build for production
+```sh
 npm run build
 ```
 
-This creates a production-ready extension in the `dist` directory.
+### 4. Load Extension
+- **Chrome/Edge:** Load `dist/` as an unpacked extension.
+- **Firefox:** Use `about:debugging` to load `dist/` as a temporary add-on.
 
 ## Project Structure
-
 ```
+manifest.json
+vite.config.ts
+package.json
 src/
-  ├─ background.ts        # Extension background script
-  ├─ content/            # Content scripts
-  │   ├─ Overlay.tsx     # Main overlay component
-  │   └─ InfoPanel.tsx   # Species info panel
-  ├─ data/               # Static data
-  │   └─ fauna.json      # Marine species data
-  ├─ utils/              # Utilities
-  │   └─ depth.ts        # Depth calculations
-  └─ styles/             # Styles
-      └─ tailwind.css    # Tailwind styles
+  background.ts
+  content/
+    Overlay.tsx
+    useDepthTimer.ts
+    InfoPanel.tsx
+  data/fauna.json
+  utils/depth.ts
+  styles/tailwind.css
+  i18n/en.json
+options/
+  Options.tsx
+  index.html
+test/
+  depth.test.ts
+README.md
 ```
 
-## Contributing
+## Testing
+```sh
+npm run test
+```
 
-1. Fork the repository
-2. Create a new branch
-3. Make your changes
-4. Submit a pull request
+## Performance & Security
+- CSS-only transforms, 15fps throttle on battery.
+- Strict CSP, no eval, least-privilege permissions.
+- Overlay in shadow DOM; no host DOM mutation.
 
-## License
+## Credits
+- Marine facts: NOAA (see `fauna.json` for species IDs)
+- UI: React, TailwindCSS, shadcn/ui
 
-MIT License - see LICENSE file for details 
+---
+MIT License 

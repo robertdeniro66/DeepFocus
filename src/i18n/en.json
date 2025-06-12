@@ -1,0 +1,28 @@
+{
+  "badge": {
+    "surface": "Surface",
+    "epipelagic": "Epipelagic",
+    "mesopelagic": "Mesopelagic",
+    "bathypelagic": "Bathypelagic",
+    "abyssal": "Abyssal",
+    "meters": "{{zone}} • {{meters}} m"
+  },
+  "infoPanel": {
+    "title": "Ocean Life at this Depth",
+    "close": "Close",
+    "learnMore": "Learn more",
+    "noFauna": "No fauna data for this zone."
+  },
+  "options": {
+    "title": "DeepFocus Settings",
+    "overlay": "Enable overlay",
+    "idleTimeout": "Idle timeout (minutes)",
+    "colorBlind": "Color-blind mode (high contrast)",
+    "save": "Save",
+    "saved": "Settings saved!"
+  },
+  "shortcuts": {
+    "toggleOverlay": "Toggle overlay (⌥+O)",
+    "toggleInfo": "Open info panel (⌥+I)"
+  }
+} 

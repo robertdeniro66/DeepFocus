@@ -12,34 +12,21 @@
     "<all_urls>"
   ],
   "background": {
-    "service_worker": "src/background.ts",
-    "type": "module"
+    "service_worker": "js/background.js"
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["src/content/index.ts"],
-      "css": ["src/styles/tailwind.css"]
+      "js": ["js/content.js"],
+      "css": ["css/overlay.css"]
     }
   ],
   "options_ui": {
-    "page": "options/index.html",
+    "page": "options.html",
     "open_in_tab": true
   },
   "action": {
-    "default_title": "DeepFocus",
-    "default_icon": {
-      "16": "icons/icon16.png",
-      "32": "icons/icon32.png",
-      "48": "icons/icon48.png",
-      "128": "icons/icon128.png"
-    }
-  },
-  "icons": {
-    "16": "icons/icon16.png",
-    "32": "icons/icon32.png",
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
+    "default_title": "DeepFocus"
   },
   "commands": {
     "_execute_action": {
