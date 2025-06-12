@@ -119,6 +119,7 @@
   font-family: 'Inter', system-ui, sans-serif;
   font-size: 16px;
   border-radius: 16px 0 0 16px;
+  transition: opacity 0.3s, transform 0.3s;
 }
 
 .deepfocus-info-panel h2 {
@@ -187,9 +188,22 @@
 @keyframes slide-in {
   from {
     transform: translateX(100%);
+    opacity: 0;
   }
   to {
     transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
   }
 }
 
@@ -225,6 +239,14 @@
   font-weight: 600;
   margin-bottom: 8px;
   color: #292929;
+}
+
+.df-marine-desc {
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 400;
+  color: #7b8794;
+  margin-bottom: 10px;
 }
 
 .df-species-card {
@@ -457,4 +479,22 @@
 
 body, .deepfocus-info-panel, .deepfocus-badge, .df-species-card, .df-zone-title, .df-zone-sub, .df-marine-title, .df-species-name, .df-species-fact, .df-learn-more, .df-zone-char, .df-panel-footer {
   font-family: 'Inter', system-ui, sans-serif !important;
+}
+
+@keyframes fadeInPanelContent {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fadeOutPanelContent {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+.df-panel-content {
+  animation: fadeInPanelContent 0.3s;
+}
+.df-panel-content.fade-out {
+  animation: fadeOutPanelContent 0.2s forwards;
+}
+.df-panel-content.fade-in {
+  animation: fadeInPanelContent 0.3s;
 } 

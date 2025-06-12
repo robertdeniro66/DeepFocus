@@ -200,13 +200,13 @@ function createInfoPanel() {
   const panel = document.createElement('div');
   panel.className = 'deepfocus-info-panel';
   panel.style.display = 'none';
-  
   panel.innerHTML = `
     <button class="close-button" aria-label="Close">×</button>
-    <div class="zone"></div>
-    <div class="species-list"></div>
+    <div class="df-panel-content">
+      <div class="zone"></div>
+      <div class="species-list"></div>
+    </div>
   `;
-  
   document.body.appendChild(panel);
   return panel;
 }
@@ -216,17 +216,18 @@ let lastPanelZone = null;
 
 // Update info panel content
 function updateInfoPanel(panel, zone, fauna, meters) {
-  const zoneEl = panel.querySelector('.zone');
-  const speciesList = panel.querySelector('.species-list');
+  const content = panel.querySelector('.df-panel-content');
+  const zoneEl = content.querySelector('.zone');
+  const speciesList = content.querySelector('.species-list');
   lastPanelZone = zone;
 
   // Panel header (always show current zone)
-  let zoneTitle = zone === 'Surface' ? 'Ocean Surface' : zone;
+  let zoneTitle = zone === 'Surface' ? 'Ocean Surface' : zone + (zone === 'Surface' ? '' : ' Zone');
   let zoneSub;
   let maxDepth = DEPTH_RANGES[zone].end || 1;
   let pct = Math.max(0, Math.min(100, (meters / maxDepth) * 100));
   if (zone === 'Surface') {
-    zoneSub = `As you spend time on this page, you'll descend through the ocean layers.`;
+    zoneSub = `Depth: 0 • Preparing to Dive...`;
   } else {
     zoneSub = `Depth: ${DEPTH_RANGES[zone].start.toLocaleString()}${DEPTH_RANGES[zone].end ? `–${DEPTH_RANGES[zone].end.toLocaleString()}` : ''}m • Current: <span class="df-current-depth">${meters}m</span>`;
   }
@@ -243,7 +244,7 @@ function updateInfoPanel(panel, zone, fauna, meters) {
     // Special card for surface
     const s = zoneFauna.species[0];
     speciesList.innerHTML = `
-      <div class="df-marine-title">Marine Life at This Depth</div>
+      <div class="df-marine-desc">As you spend time on this page, you'll descend through the ocean layers and discover creatures the deeper you go</div>
       <div class="df-species-card">
         <div class="df-species-header">
           <span class="df-species-name">${s.name}</span>
@@ -254,7 +255,7 @@ function updateInfoPanel(panel, zone, fauna, meters) {
     `;
   } else {
     speciesList.innerHTML = `
-      <div class="df-marine-title">Marine Life at This Depth</div>
+      <div class="df-marine-desc">As you spend time on this page, you'll descend through the ocean layers and discover creatures the deeper you go</div>
       ${zoneFauna.species.map(species => {
         const emoji = getSpeciesEmoji(species.name);
         return `
@@ -301,15 +302,23 @@ function init() {
   
   // Update depth and UI
   function update() {
-    const { zone, meters } = calculateDepth(elapsedSeconds);
+    const { zone, meters, progress } = calculateDepth(elapsedSeconds);
+    console.log('elapsedSeconds:', elapsedSeconds, 'zone:', zone);
     // Overlay color/gradient logic for surface and depth
-    if (zone === 'Surface' && meters < 10) {
-      overlay.style.transition = 'background 1s';
-      overlay.style.background = ZONE_GRADIENTS.Surface;
+    let grad;
+    if (zone === 'Abyssal') {
+      grad = ZONE_GRADIENTS.Abyssal;
     } else {
-      overlay.style.transition = 'background 1s';
-      overlay.style.background = ZONE_GRADIENTS[zone];
+      // Blend main color stops between this and next zone
+      const nextZone = getNextZone(zone);
+      const c1 = parseRGB(ZONE_COLORS[zone]);
+      const c2 = parseRGB(ZONE_COLORS[nextZone]);
+      const blended = blendRGB(c1, c2, progress);
+      // Use the blended color as the main stop in the gradient
+      grad = `linear-gradient(180deg, rgba(229,247,255,0) 0%, rgba(229,247,255,1) 25%, rgb(${blended.join(',')}) 100%)`;
     }
+    overlay.style.transition = 'background 1s';
+    overlay.style.background = grad;
 
     // Pre-dive state: show 'Preparing to dive…' and bubbles if depth === 0
     const isPreDive = meters === 0;
@@ -349,9 +358,11 @@ function init() {
   // Toggle info panel
   function toggleInfoPanel() {
     isInfoPanelOpen = !isInfoPanelOpen;
-    infoPanel.style.display = isInfoPanelOpen ? 'block' : 'none';
-    badge.style.display = isInfoPanelOpen ? 'none' : '';
     if (isInfoPanelOpen) {
+      infoPanel.style.display = 'block';
+      infoPanel.style.animation = 'slide-in 0.3s ease-out';
+      infoPanel.style.opacity = '1';
+      badge.style.display = 'none';
       const { zone, meters } = calculateDepth(elapsedSeconds);
       updateInfoPanel(infoPanel, zone, FAUNA, meters);
       // Start interval to update current depth in panel
@@ -362,12 +373,12 @@ function init() {
           // Update the header zone and current depth
           const zoneEl = infoPanel.querySelector('.zone');
           if (zoneEl) {
-            let liveZoneTitle = liveZone === 'Surface' ? 'Ocean Surface' : liveZone;
+            let liveZoneTitle = liveZone === 'Surface' ? 'Ocean Surface' : liveZone + (liveZone === 'Surface' ? '' : ' Zone');
             let liveZoneSub;
             let maxDepth = DEPTH_RANGES[liveZone].end || 1;
             let pct = Math.max(0, Math.min(100, (liveMeters / maxDepth) * 100));
             if (liveZone === 'Surface') {
-              liveZoneSub = `As you spend time on this page, you'll descend through the ocean layers.`;
+              liveZoneSub = `Depth: 0 • Preparing to Dive...`;
             } else {
               liveZoneSub = `Depth: ${DEPTH_RANGES[liveZone].start.toLocaleString()}${DEPTH_RANGES[liveZone].end ? `–${DEPTH_RANGES[liveZone].end.toLocaleString()}` : ''}m • Current: <span class="df-current-depth">${liveMeters}m</span>`;
             }
@@ -384,7 +395,7 @@ function init() {
               } else if (liveZone === 'Surface') {
                 const s = zoneFauna.species[0];
                 speciesList.innerHTML = `
-                  <div class="df-marine-title">Marine Life at This Depth</div>
+                  <div class="df-marine-desc">As you spend time on this page, you'll descend through the ocean layers and discover creatures the deeper you go</div>
                   <div class="df-species-card">
                     <div class="df-species-header">
                       <span class="df-species-name">${s.name}</span>
@@ -395,7 +406,7 @@ function init() {
                 `;
               } else {
                 speciesList.innerHTML = `
-                  <div class="df-marine-title">Marine Life at This Depth</div>
+                  <div class="df-marine-desc">As you spend time on this page, you'll descend through the ocean layers and discover creatures the deeper you go</div>
                   ${zoneFauna.species.map(species => {
                     const emoji = getSpeciesEmoji(species.name);
                     return `
@@ -411,13 +422,31 @@ function init() {
                 `;
               }
               lastPanelZone = liveZone;
+              // Update zone characteristics for each zone
+              const zoneChar = ZONE_CHARACTERISTICS[liveZone] || '';
+              if (!infoPanel.querySelector('.df-zone-char')) {
+                const charDiv = document.createElement('div');
+                charDiv.className = 'df-zone-char';
+                infoPanel.appendChild(charDiv);
+              }
+              infoPanel.querySelector('.df-zone-char').innerHTML = `
+                <div class="df-zone-char-title">Zone Characteristics</div>
+                <div class="df-zone-char-desc">${zoneChar}</div>
+              `;
             }
           }
         }
       }, 1000);
     } else {
-      if (panelUpdateInterval) clearInterval(panelUpdateInterval);
+      // Animate out
+      infoPanel.style.animation = 'slide-out 0.3s ease-in';
+      infoPanel.style.opacity = '0';
+      setTimeout(() => {
+        infoPanel.style.display = 'none';
+        badge.style.display = '';
+      }, 300);
     }
+    if (panelUpdateInterval) clearInterval(panelUpdateInterval);
   }
   
   // Event listeners
@@ -462,4 +491,26 @@ function getSpeciesEmoji(name) {
   if (/squid|octopus/i.test(name)) return '🦑';
   if (/cucumber/i.test(name)) return '🥒'; // fun, but can use 🐟 if preferred
   return '🐟';
+}
+
+// Helper to parse rgb string to array
+function parseRGB(rgbStr) {
+  const m = rgbStr.match(/\d+/g);
+  return m ? m.map(Number) : [0,0,0];
+}
+
+// Helper to blend two rgb arrays
+function blendRGB(rgb1, rgb2, t) {
+  return [
+    Math.round(rgb1[0] + (rgb2[0] - rgb1[0]) * t),
+    Math.round(rgb1[1] + (rgb2[1] - rgb1[1]) * t),
+    Math.round(rgb1[2] + (rgb2[2] - rgb1[2]) * t)
+  ];
+}
+
+// Helper to get next zone
+function getNextZone(zone) {
+  const zones = Object.keys(ZONE_COLORS);
+  const idx = zones.indexOf(zone);
+  return zones[Math.min(idx+1, zones.length-1)];
 } 
